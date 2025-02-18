@@ -1,9 +1,8 @@
 import { ActionParameters } from './models/action-parameters.js';
 import { ActionSettings } from './models/action-settings.js';
-import { Result } from './models/lib-types.js';
+import { Main } from 'aerie-actions/main.js';
 
-// TODO: How are the settings going to be provided to the action?
-export async function main(actionParameters: ActionParameters, actionSettings: ActionSettings): Promise<Result> {
+export const main: Main = async function (actionParameters: ActionParameters, actionSettings: ActionSettings) {
   // Make a dummy request.
   await fetch(`${actionSettings.externalUrl}/${actionParameters.sequenceId}`, {
     method: 'get',
