@@ -11,6 +11,9 @@
   "author": "",
   "license": "ISC",
   "description": "",
+  "dependencies": {
+    "aerie-action": "git://github.com/NASA-AMMOS/aerie-action.git#24987ab65bf442a81bf08690d9519264582228c6"
+  },
   "devDependencies": {
     "@rollup/plugin-typescript": "12.1.2",
     "prettier": "3.4.2",

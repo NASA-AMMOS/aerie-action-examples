@@ -1,8 +1,8 @@
 import { ActionParameters } from './models/action-parameters.js';
 import { ActionSettings } from './models/action-settings.js';
-import { Main } from 'aerie-actions/main.js';
+// import { ActionMain } from 'aerie-action/src/models/main.ts';
 
-export const main: Main = async function (actionParameters: ActionParameters, actionSettings: ActionSettings) {
+export const main = async function (actionParameters: ActionParameters, actionSettings: ActionSettings) {
   // Make a dummy request.
   await fetch(`${actionSettings.externalUrl}/${actionParameters.sequenceId}`, {
     method: 'get',
