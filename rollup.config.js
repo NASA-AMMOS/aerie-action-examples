@@ -1,7 +1,7 @@
 export default [
   {
     treeshake: true,
-    input: 'out-tsc/src/index.js',
+    input: 'out-tsc/index.js',
     output: {
       dir: 'dist'
     }
