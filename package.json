@@ -13,6 +13,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-typescript": "12.1.2",
     "prettier": "3.4.2",
     "rimraf": "6.0.1",
