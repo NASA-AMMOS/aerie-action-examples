@@ -1,14 +1,16 @@
-import resolve from '@rollup/plugin-node-resolve';
+import resolve from "@rollup/plugin-node-resolve";
 
 export default [
   {
     treeshake: true,
-    input: 'out-tsc/index.js',
+    input: "out-tsc/index.js",
     output: {
-      dir: 'dist'
+      dir: "dist",
+      format: "cjs"
+      // exports: "default"
     },
     plugins: [
-      resolve(),  // this resolves imports from node_modules
+      resolve(), // this resolves imports from node_modules
     ],
-  }
-]
+  },
+];

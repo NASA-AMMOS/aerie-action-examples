@@ -1,19 +1,36 @@
-import { ActionParameters } from './models/action-parameters.js';
-import { ActionSettings } from './models/action-settings.js';
+
 // import { ActionMain } from 'aerie-action/src/models/main.ts';
 
-import {listFiles, readFile, writeFile} from 'aerie-actions/dist/helpers.js';
+import { listFiles, readFile, writeFile } from "aerie-actions/dist/helpers.js";
+import {ActionParameterDefinitions, ActionParameters, ActionSettingDefinitions, ActionSettings, ActionValueSchema} from "./schema.js";
 
-export async function main(actionParameters: ActionParameters, actionSettings: ActionSettings) {
+// Define schemas for your action's settings and parameters
+export const paramDefs = {
+  sequenceId: { type: "string" },
+  myBool: { type: "boolean" }
+} satisfies ActionParameterDefinitions;
+
+export const settingDefs = {
+  externalUrl: {type: "string"},
+  retries: {type: "int"}
+} satisfies ActionSettingDefinitions;
+
+// generate the correct typescript types from the schemas
+type MyActionParameters = ActionParameters<typeof paramDefs>;
+type MyActionSettings = ActionSettings<typeof settingDefs>;
+
+
+export async function main(actionParameters: MyActionParameters, actionSettings: MyActionSettings) {
   const url = `${actionSettings.externalUrl}/${actionParameters.sequenceId}`;
+
   const startTime = performance.now();
 
   // Make a request to an external URL using fetch
   const result = await fetch(url, {
-    method: 'get',
+    method: "get",
     headers: {
-      'Content-Type': 'application/json'
-    }
+      "Content-Type": "application/json",
+    },
   });
   console.log(`request took ${performance.now() - startTime}ms`);
 
@@ -27,11 +44,11 @@ export async function main(actionParameters: ActionParameters, actionSettings: A
 
   // read/write files using the actions helpers
   const files = listFiles();
-  const myFile = readFile('my_file');
-  writeFile('new_file', 'new contents');
+  const myFile = readFile("my_file");
+  writeFile("new_file", "new contents");
 
   return {
     status: "SUCCESS",
-    data: resultData
+    data: resultData,
   };
 }
