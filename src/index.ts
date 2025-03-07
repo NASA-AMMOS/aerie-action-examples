@@ -1,8 +1,5 @@
-
-// import { ActionMain } from 'aerie-action/src/models/main.ts';
-
-import { listFiles, readFile, writeFile } from "aerie-actions/dist/helpers.js";
 import {ActionParameterDefinitions, ActionParameters, ActionSettingDefinitions, ActionSettings, ActionValueSchema} from "./schema.js";
+import {Actions} from "aerie-actions/dist/helpers.js";
 
 // Define schemas for your action's settings and parameters
 export const paramDefs = {
@@ -20,7 +17,7 @@ type MyActionParameters = ActionParameters<typeof paramDefs>;
 type MyActionSettings = ActionSettings<typeof settingDefs>;
 
 
-export async function main(actionParameters: MyActionParameters, actionSettings: MyActionSettings) {
+export async function main(actionParameters: MyActionParameters, actionSettings: MyActionSettings, ActionAPI: Actions) {
   const url = `${actionSettings.externalUrl}/${actionParameters.sequenceId}`;
 
   const startTime = performance.now();
@@ -43,9 +40,14 @@ export async function main(actionParameters: MyActionParameters, actionSettings:
   }
 
   // read/write files using the actions helpers
-  const files = listFiles();
-  const myFile = readFile("my_file");
-  writeFile("new_file", "new contents");
+  const files = await ActionAPI.listSequences();
+  const myFile = await ActionAPI.readSequence("my_file");
+  console.log(`myFile: ${JSON.stringify(myFile)}`);
+
+  const writeResult = ActionAPI.writeSequence("new_file", "new contents");
+  console.log(`writeResult: ${JSON.stringify(writeResult)}`);
+
+  console.log('sequence files:', JSON.stringify(files));
 
   return {
     status: "SUCCESS",

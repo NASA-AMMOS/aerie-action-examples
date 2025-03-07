@@ -20,6 +20,7 @@ export type ActionValueSchemaReal = {
 
 export type ActionValueSchemaPath = {
   type: "path";
+  pattern: string;
 } & ActionValueSchemaMetadata;
 
 export type ActionValueSchemaSeries = {
