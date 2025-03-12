@@ -44,7 +44,7 @@ export async function main(actionParameters: MyActionParameters, actionSettings:
   const myFile = await ActionAPI.readSequence("my_file");
   console.log(`myFile: ${JSON.stringify(myFile)}`);
 
-  const writeResult = ActionAPI.writeSequence("new_file", "new contents");
+  const writeResult = await ActionAPI.writeSequence("new_file", "new contents");
   console.log(`writeResult: ${JSON.stringify(writeResult)}`);
 
   console.log('sequence files:', JSON.stringify(files));
