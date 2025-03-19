@@ -1,56 +1,58 @@
-import {ActionParameterDefinitions, ActionParameters, ActionSettingDefinitions, ActionSettings, ActionValueSchema} from "./schema.js";
-import {Actions} from "aerie-actions/dist/helpers.js";
+import { ActionParameterDefinitions, ActionParameters, ActionSettingDefinitions, ActionSettings } from "./schema.js";
+import { Actions } from "aerie-actions/dist/helpers.js";
+import figlet from "figlet";
+
+// register inline figlet fonts to be included in the bundle
+// @ts-ignore
+import Roman from "figlet/importable-fonts/Roman.js";
+// @ts-ignore
+import Caligraphy from "figlet/importable-fonts/Caligraphy.js";
+// @ts-ignore
+import Colossal from "figlet/importable-fonts/Colossal.js";
+figlet.parseFont("roman", Roman);
+figlet.parseFont("caligraphy", Caligraphy);
+figlet.parseFont("colossal", Colossal);
 
 // Define schemas for your action's settings and parameters
 export const paramDefs = {
-  sequenceId: { type: "string" },
-  myBool: { type: "boolean" }
+  inputFile: { type: "string" },
+  font: { type: "string" },
 } satisfies ActionParameterDefinitions;
 
 export const settingDefs = {
-  externalUrl: {type: "string"},
-  retries: {type: "int"}
+  writeFile: { type: "boolean" },
 } satisfies ActionSettingDefinitions;
 
 // generate the correct typescript types from the schemas
 type MyActionParameters = ActionParameters<typeof paramDefs>;
 type MyActionSettings = ActionSettings<typeof settingDefs>;
 
-
-export async function main(actionParameters: MyActionParameters, actionSettings: MyActionSettings, ActionAPI: Actions) {
-  const url = `${actionSettings.externalUrl}/${actionParameters.sequenceId}`;
-
-  const startTime = performance.now();
-
-  // Make a request to an external URL using fetch
-  const result = await fetch(url, {
-    method: "get",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  console.log(`request took ${performance.now() - startTime}ms`);
-
-  // try parsing result as either json or text
-  let resultData: string;
-  try {
-    resultData = await result.clone().json();
-  } catch {
-    resultData = await result.clone().text();
+export async function main(actionParameters: MyActionParameters, actionSettings: MyActionSettings, actions: Actions) {
+  // read input from a sequence provided by 'inputFile' parameter
+  if (!actionParameters.inputFile) {
+    throw new Error("Input file is required");
   }
+  const inputSequence = await actions.readSequence(actionParameters.inputFile);
+  const inputStr = inputSequence.definition || "";
 
-  // read/write files using the actions helpers
-  const files = await ActionAPI.listSequences();
-  const myFile = await ActionAPI.readSequence("my_file");
-  console.log(`myFile: ${JSON.stringify(myFile)}`);
+  console.log(`Generating art for "${inputStr}"...`);
+  let artStr: string;
+  const options: figlet.Options = { font: (actionParameters.font as figlet.Fonts) || "roman" };
+  artStr = figlet.textSync(inputStr, options);
+  console.log(artStr);
 
-  const writeResult = await ActionAPI.writeSequence("new_file", "new contents");
-  console.log(`writeResult: ${JSON.stringify(writeResult)}`);
+  // make a unique file name
+  const timeStr = new Date().toISOString().replace(/[-.:]/g, "");
+  const outFileName = `figlet-${timeStr}`;
 
-  console.log('sequence files:', JSON.stringify(files));
+  // write the ascii art string to the output file
+  await actions.writeSequence(outFileName, artStr);
 
   return {
     status: "SUCCESS",
-    data: resultData,
+    data: {
+      outFileName,
+      output: artStr,
+    },
   };
 }
