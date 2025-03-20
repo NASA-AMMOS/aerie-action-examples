@@ -1,24 +1,23 @@
-import {ActionParameterDefinitions, ActionParameters, ActionSettingDefinitions, ActionSettings, ActionValueSchema} from "./schema.js";
-import {Actions} from "aerie-actions/dist/helpers.js";
+// import {ActionParameterDefinitions, ActionParameters, ActionSettingDefinitions, ActionSettings, ActionValueSchema} from "./schema.js";
+import type { ActionsAPI, ActionParameterDefinitions, ActionSettingDefinitions, ActionParameters, ActionSettings } from "aerie-actions";
 
 // Define schemas for your action's settings and parameters
-export const paramDefs = {
-  sequenceId: { type: "string" },
-  myBool: { type: "boolean" }
+export const parameterDefinitions = {
+  urlPath: { type: "string" },
+  myBool: { type: "boolean" },
 } satisfies ActionParameterDefinitions;
 
-export const settingDefs = {
-  externalUrl: {type: "string"},
-  retries: {type: "int"}
+export const settingDefinitions = {
+  externalUrl: { type: "string" },
+  retries: { type: "int" },
 } satisfies ActionSettingDefinitions;
 
 // generate the correct typescript types from the schemas
-type MyActionParameters = ActionParameters<typeof paramDefs>;
-type MyActionSettings = ActionSettings<typeof settingDefs>;
+type MyActionParameters = ActionParameters<typeof parameterDefinitions>;
+type MyActionSettings = ActionSettings<typeof settingDefinitions>;
 
-
-export async function main(actionParameters: MyActionParameters, actionSettings: MyActionSettings, ActionAPI: Actions) {
-  const url = `${actionSettings.externalUrl}/${actionParameters.sequenceId}`;
+export async function main(parameters: MyActionParameters, settings: MyActionSettings, actionsAPI: ActionsAPI) {
+  const url = `${settings.externalUrl}/${parameters.urlPath}`;
 
   const startTime = performance.now();
 
@@ -40,14 +39,15 @@ export async function main(actionParameters: MyActionParameters, actionSettings:
   }
 
   // read/write files using the actions helpers
-  const files = await ActionAPI.listSequences();
-  const myFile = await ActionAPI.readSequence("my_file");
+  const files = await actionsAPI.listSequences();
+  console.log(`sequence files: ${JSON.stringify(files)}`);
+  const myFile = await actionsAPI.readSequence("my_file");
   console.log(`myFile: ${JSON.stringify(myFile)}`);
 
-  const writeResult = await ActionAPI.writeSequence("new_file", "new contents");
+  //
+  const jsonStr = JSON.stringify(resultData, null, 2);
+  const writeResult = await actionsAPI.writeSequence("action-template-output", jsonStr);
   console.log(`writeResult: ${JSON.stringify(writeResult)}`);
-
-  console.log('sequence files:', JSON.stringify(files));
 
   return {
     status: "SUCCESS",

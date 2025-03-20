@@ -6,7 +6,7 @@ export default [
     input: "out-tsc/index.js",
     output: {
       dir: "dist",
-      format: "cjs"
+      format: "cjs",
       // exports: "default"
     },
     plugins: [
