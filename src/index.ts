@@ -5,6 +5,7 @@ import type { ActionsAPI, ActionParameterDefinitions, ActionSettingDefinitions, 
 export const parameterDefinitions = {
   urlPath: { type: "string" },
   myBool: { type: "boolean" },
+  sleepMs: { type: "int" }
 } satisfies ActionParameterDefinitions;
 
 export const settingDefinitions = {
@@ -16,10 +17,14 @@ export const settingDefinitions = {
 type MyActionParameters = ActionParameters<typeof parameterDefinitions>;
 type MyActionSettings = ActionSettings<typeof settingDefinitions>;
 
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 export async function main(parameters: MyActionParameters, settings: MyActionSettings, actionsAPI: ActionsAPI) {
   const url = `${settings.externalUrl}/${parameters.urlPath}`;
 
   const startTime = performance.now();
+
+  if(parameters.sleepMs) { await sleep(parameters.sleepMs); }
 
   // Make a request to an external URL using fetch
   const result = await fetch(url, {
