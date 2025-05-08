@@ -4,24 +4,27 @@
   "main": "index.ts",
   "type": "module",
   "scripts": {
-    "build": "rimraf dist && tsc && rollup -c rollup.config.js && grep -v \"export { main }\" dist/index.js >> dist/action.js && rm dist/index.js",
+    "build": "rimraf dist && tsc && rollup -c rollup.config.js",
     "format": "prettier --plugin-search-dir=. --write .",
     "lint": "prettier --plugin-search-dir=. --check . && eslint .",
-    "stringify": "npm run build && node stringify.js"
+    "stringify": "npm run build && node stringify.js",
+    "test": "node --import tsx --test 'tests/**/*.test.ts'"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "description": "",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.3",
     "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-typescript": "12.1.2",
     "prettier": "3.4.2",
     "rimraf": "6.0.1",
     "rollup": "4.34.3",
     "tslib": "2.8.1",
+    "tsx": "^4.19.4",
     "typescript": "5.7.3"
   },
   "dependencies": {
-    "aerie-actions": "github:NASA-AMMOS/aerie-actions#c3cf3a41416c673920661af17ffc1b994c878d72"
+    "@nasa-jpl/aerie-actions": "^0.1.5"
   }
 }
