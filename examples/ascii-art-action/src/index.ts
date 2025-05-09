@@ -1,4 +1,10 @@
-import { ActionsAPI, ActionParameterDefinitions, ActionParameters, ActionSettingDefinitions, ActionSettings } from "@nasa-jpl/aerie-actions";
+import {
+  ActionsAPI,
+  ActionParameterDefinitions,
+  ActionParameters,
+  ActionSettingDefinitions,
+  ActionSettings,
+} from "@nasa-jpl/aerie-actions";
 import figlet from "figlet";
 
 // register inline figlet fonts to be included in the bundle
@@ -47,7 +53,7 @@ export async function main(actionParameters: MyActionParameters, settings: MyAct
   const outFileName = `figlet-${timeStr}`;
 
   // write the ascii art string to the output file
-  if(settings.writeFile) {
+  if (settings.writeFile) {
     await actions.writeSequence(outFileName, artStr);
   }
 

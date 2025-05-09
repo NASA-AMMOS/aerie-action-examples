@@ -1,4 +1,3 @@
-
 import { describe, it, test, mock } from "node:test";
 import { ActionsAPI } from "@nasa-jpl/aerie-actions";
 
@@ -22,7 +21,7 @@ test("aerie figlet action", async (t) => {
         font: "roman",
       },
       {
-        writeFile: true
+        writeFile: true,
       },
       mockActionsAPI,
     );
