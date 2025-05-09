@@ -1,4 +1,3 @@
-// import {ActionParameterDefinitions, ActionParameters, ActionSettingDefinitions, ActionSettings, ActionValueSchema} from "./schema.js";
 import type {
   ActionsAPI,
   ActionParameterDefinitions,
