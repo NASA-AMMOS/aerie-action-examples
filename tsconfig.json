@@ -10,6 +10,7 @@
     "moduleResolution": "NodeNext",
     "module": "NodeNext",
     "strict": true,
-    "outDir": "out-tsc"
+    "outDir": "out-tsc",
+    "types": ["node"]
   }
 }
