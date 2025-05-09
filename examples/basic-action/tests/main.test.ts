@@ -14,6 +14,15 @@ const mockActionsAPI = {
 
 test("aerie basic example action", async (t) => {
   await t.test("runs main", async () => {
-    return await main({ urlPath: "repos/NASA-AMMOS/aerie" }, { externalUrl: "https://api.github.com" }, mockActionsAPI);
+    return await main(
+        {
+          urlPath: "repos/NASA-AMMOS/aerie",
+          myBool: false,
+          sleepMs: 0
+        },
+        {
+          externalUrl: "https://api.github.com",
+          retries: 0,
+        }, mockActionsAPI);
   });
 });
