@@ -1,5 +1,5 @@
 {
-  "name": "aerie-action-template",
+  "name": "aerie-fresh-action",
   "version": "1.0.0",
   "main": "index.ts",
   "type": "module",
@@ -7,7 +7,8 @@
     "build": "rimraf dist && tsc && rollup -c rollup.config.js && grep -v \"export { main }\" dist/index.js >> dist/action.js && rm dist/index.js",
     "format": "prettier --plugin-search-dir=. --write .",
     "lint": "prettier --plugin-search-dir=. --check . && eslint .",
-    "stringify": "npm run build && node stringify.js"
+    "stringify": "npm run build && node stringify.js",
+    "test": "echo 'no tests yet for fresh-action' && exit 0"
   },
   "author": "",
   "license": "ISC",
