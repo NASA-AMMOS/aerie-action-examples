@@ -1,5 +1,4 @@
-// import {ActionParameterDefinitions, ActionParameters, ActionSettingDefinitions, ActionSettings, ActionValueSchema} from "./schema.js";
-import { ActionsAPI, ActionParameterDefinitions, ActionSettingDefinitions, ActionParameters, ActionSettings } from "aerie-actions";
+import { ActionsAPI, ActionParameterDefinitions, ActionSettingDefinitions, ActionParameters, ActionSettings } from "@nasa-jpl/aerie-actions";
 import { RefreshResponse } from './models/refresh.js';
 
 export const parameterDefinitions = {
@@ -29,7 +28,7 @@ export async function main(parameters: MyActionParameters, settings: MyActionSet
 
   const parcel = await actionsAPI.readParcel(sequence.parcel_id);
   const commandDictionary = await actionsAPI.readCommandDictionary(parcel.command_dictionary_id);
-  const commandDictionaryFile = await actionsAPI.readCommandDictionaryFile(commandDictionary.command_dictionary_file_path);
+  const commandDictionaryFile = await actionsAPI.readDictionaryFile(commandDictionary.dictionary_file_path);
 
   const result = await fetch(settings.refreshUrl, {
     body: JSON.stringify({

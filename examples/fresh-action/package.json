@@ -23,6 +23,6 @@
     "typescript": "5.7.3"
   },
   "dependencies": {
-    "aerie-actions": "github:NASA-AMMOS/aerie-actions#c3cf3a41416c673920661af17ffc1b994c878d72"
+    "@nasa-jpl/aerie-actions": "^0.1.7"
   }
 }
