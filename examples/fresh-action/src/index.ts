@@ -30,7 +30,6 @@ export async function main(parameters: MyActionParameters, settings: MyActionSet
   const commandDictionary = await actionsAPI.readCommandDictionary(parcel.command_dictionary_id);
   const commandDictionaryFile = await actionsAPI.readDictionaryFile(commandDictionary.dictionary_file_path);
 
-  console.log(settings.refreshUrl);
   const result = await fetch(settings.refreshUrl, {
     body: JSON.stringify({
       'sequence': sequence.seq_json,
