@@ -1,6 +1,11 @@
-# aerie-action-template
+# aerie-fresh-action
 
-This is an example action that performs flight rule checking on a sequence.
+This is an example action that performs flight rule checking on a sequence by making requests to an external FRESH service.
+
+[FRESH](https://github.jpl.nasa.gov/397/mm-fresh) is a JPL internal (closed source) flight rule evaluation tool. If you are a JPL user, see the [FRESH docs and setup instructions](https://github.jpl.nasa.gov/397/mm-fresh/tree/develop/docs) for details (links accessible inside JPL network only). FRESH alone does not provide a web interface, so this action also depends on [Refresh](https://github.jpl.nasa.gov/Aerie/refresh), which provides a web server wrapper for FRESH.
+
+External users won't be able to run FRESH, but this repo can still serve as a reference for building actions that make HTTP requests to remote services.
+
 
 ## Usage
 
