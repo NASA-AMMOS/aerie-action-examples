@@ -8,7 +8,7 @@
     "format": "prettier --plugin-search-dir=. --write .",
     "lint": "prettier --plugin-search-dir=. --check . && eslint .",
     "stringify": "npm run build && node stringify.js",
-    "test": "node --import tsx --test tests/**/*.test.ts"
+    "test": "node --import tsx --test 'tests/**/*.test.ts'"
   },
   "author": "",
   "license": "MIT",

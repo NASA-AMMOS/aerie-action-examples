@@ -21,11 +21,9 @@ function createMockResponse(data) {
   };
 }
 
-// mock fetch that returns it
-const mockFetch = mock.fn(async (url, options) => {
-  console.log(`mock fetch called with url: ${url}`);
-  return createMockResponse({ message: "mock response" });
-});
+// mock function for copyFile
+const mockCopyFile = mock.fn(async (source: string, dest: string) => {});
+
 
 // TS utility that lets us mock only selected parts of an object,
 // while treating it as a fully-typed instance of the whole thing.
@@ -67,7 +65,7 @@ const mockActionsAPI = createMock<ActionsAPI>({
   readFile: async (name: string) => {},
   writeFile: async (name: string, definition: string, overwrite: boolean) => {},
   listFiles: async (path: string) => {return []},
-  copyFile: async (source: string, dest: string) => {},
+  copyFile: mockCopyFile,
   moveFile: async (source: string, dest: string) => {},
   deleteFile: async (source: string) => {},
   createDirectory: async (name: string) => {},
@@ -75,7 +73,6 @@ const mockActionsAPI = createMock<ActionsAPI>({
 });
 
 test("aerie files example action", async (t) => {
-  t.mock.method(globalThis, 'fetch', mockFetch);
 
   await t.test("runs main", async () => {
     await main(
@@ -104,6 +101,6 @@ test("aerie files example action", async (t) => {
       },
       mockActionsAPI,
     );
-    assert.equal(mockFetch.mock.calls.length, 1, "fetch should have been called once");
+    assert.equal(mockCopyFile.mock.calls.length, 1, "copyFile should have been called once");
   });
 });
