@@ -2,7 +2,7 @@ import { ActionsAPI, ActionParameterDefinitions, ActionSettingDefinitions, Actio
 import { RefreshResponse } from './models/refresh.js';
 
 export const parameterDefinitions = {
-  sequenceName: { type: 'string' }
+  inputSequence: { type: 'sequence' }
 } satisfies ActionParameterDefinitions;
 
 export const settingDefinitions = {
@@ -16,11 +16,11 @@ type MyActionParameters = ActionParameters<typeof parameterDefinitions>;
 type MyActionSettings = ActionSettings<typeof settingDefinitions>;
 
 export async function main(parameters: MyActionParameters, settings: MyActionSettings, actionsAPI: ActionsAPI) {
-  if (parameters.sequenceName === undefined || parameters.sequenceName === null) {
+  console.log(`running FRESH on sequence '${parameters.inputSequence}'`);
+  if (!parameters.inputSequence) {
     throw new Error(sequenceNameError);
   }
-
-  const sequence = await actionsAPI.readSequence(parameters.sequenceName);
+  const sequence = await actionsAPI.readSequence(parameters.inputSequence);
 
   if (sequence.seq_json === undefined || sequence.seq_json === null) {
     throw new Error(`Sequence: ${sequence.name} does not have any generated seqjson.`)
