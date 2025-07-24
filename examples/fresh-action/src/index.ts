@@ -16,23 +16,24 @@ type MyActionParameters = ActionParameters<typeof parameterDefinitions>;
 type MyActionSettings = ActionSettings<typeof settingDefinitions>;
 
 export async function main(parameters: MyActionParameters, settings: MyActionSettings, actionsAPI: ActionsAPI) {
+
+  if (!parameters.inputSequence.endsWith(".seq.json")) {
+    console.warn(`Sequence: ${parameters.inputSequence} does not have expected extension of .seq.json`)
+  }
+
   console.log(`running FRESH on sequence '${parameters.inputSequence}'`);
   if (!parameters.inputSequence) {
     throw new Error(sequenceNameError);
   }
-  const sequence = await actionsAPI.readSequence(parameters.inputSequence);
+  const sequence = await actionsAPI.readFile(parameters.inputSequence);
 
-  if (sequence.seq_json === undefined || sequence.seq_json === null) {
-    throw new Error(`Sequence: ${sequence.name} does not have any generated seqjson.`)
-  }
-
-  const parcel = await actionsAPI.readParcel(sequence.parcel_id);
+  const parcel = await actionsAPI.readParcel();
   const commandDictionary = await actionsAPI.readCommandDictionary(parcel.command_dictionary_id);
   const commandDictionaryFile = await actionsAPI.readDictionaryFile(commandDictionary.dictionary_file_path);
 
   const result = await fetch(settings.refreshUrl, {
     body: JSON.stringify({
-      'sequence': sequence.seq_json,
+      'sequence': sequence,
       'command_dictionary': commandDictionaryFile
     }),
     method: 'post',
