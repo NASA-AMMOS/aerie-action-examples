@@ -62,5 +62,6 @@ test("aerie basic example action", async (t) => {
       mockActionsAPI,
     );
     assert.equal(mockFetch.mock.calls.length, 1, "fetch should have been called once");
+    assert.equal(mockFetch.mock.calls[0].arguments[0], "https://api.github.com/repos/NASA-AMMOS/aerie");
   });
 });

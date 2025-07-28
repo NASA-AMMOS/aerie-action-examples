@@ -39,22 +39,22 @@ export async function main(actionParameters: MyActionParameters, settings: MyAct
   if (!actionParameters.inputFile) {
     throw new Error("Input file is required");
   }
-  const inputSequence = await actions.readSequence(actionParameters.inputFile);
-  const inputStr = inputSequence.definition || "";
+  const inputSequence = await actions.readFile(actionParameters.inputFile);
+  const inputStr = inputSequence || "";
 
   console.log(`Generating art for "${inputStr}"...`);
   let artStr: string;
   const options: figlet.Options = { font: (actionParameters.font as figlet.Fonts) || "roman" };
-  artStr = figlet.textSync(inputStr, options);
+  artStr = figlet.textSync(inputStr.toString(), options); // need to coerce inputStr to primitive string type
   console.log(artStr);
 
   // make a unique file name
   const timeStr = new Date().toISOString().replace(/[-.:]/g, "");
-  const outFileName = `figlet-${timeStr}`;
+  const outFileName = `figlet-${timeStr}.txt`;
 
   // write the ascii art string to the output file
   if (settings.writeFile) {
-    await actions.writeSequence(outFileName, artStr);
+    await actions.writeFile(outFileName, artStr, true);
   }
 
   return {
