@@ -50,7 +50,7 @@ export async function main(actionParameters: MyActionParameters, settings: MyAct
 
   // make a unique file name
   const timeStr = new Date().toISOString().replace(/[-.:]/g, "");
-  const outFileName = `figlet-${timeStr}`;
+  const outFileName = `figlet-${timeStr}.txt`;
 
   // write the ascii art string to the output file
   if (settings.writeFile) {

@@ -65,7 +65,7 @@ export async function main(parameters: MyActionParameters, settings: MyActionSet
 
   //
   const jsonStr = JSON.stringify(resultData, null, 2);
-  const writeResult = await actionsAPI.writeFile("action-template-output", jsonStr, true);
+  const writeResult = await actionsAPI.writeFile("basic-action-output.json", jsonStr, true);
   console.log(`writeResult: ${JSON.stringify(writeResult)}`);
 
   return {

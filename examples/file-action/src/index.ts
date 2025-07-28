@@ -6,19 +6,21 @@ import type {
   ActionSettings,
 } from "@nasa-jpl/aerie-actions";
 
-export const parameterDefinitions = {} satisfies ActionParameterDefinitions;
+export const parameterDefinitions = {
+  testDirectory: { type: "string" }
+} satisfies ActionParameterDefinitions;
 export const settingDefinitions = {} satisfies ActionSettingDefinitions;
 
 type MyActionParameters = ActionParameters<typeof parameterDefinitions>;
 type MyActionSettings = ActionSettings<typeof settingDefinitions>;
 
 export async function main(
-    _parameters: MyActionParameters,
+    parameters: MyActionParameters,
     _settings: MyActionSettings,
     actionsAPI: ActionsAPI
 ) {
   const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-  const dir = "test";
+  const dir = parameters.testDirectory || "test";
   const originalFile = `${dir}/${timestamp}.txt`;
   const copiedFile = `${dir}/${timestamp}.copy.txt`;
   const movedFile = `${dir}/${timestamp}.moved.txt`;

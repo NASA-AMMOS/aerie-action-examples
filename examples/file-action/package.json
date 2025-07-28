@@ -25,6 +25,6 @@
     "typescript": "5.7.3"
   },
   "dependencies": {
-    "@nasa-jpl/aerie-actions": "file:../../../aerie-actions/nasa-jpl-aerie-actions-0.1.8.tgz"
+    "@nasa-jpl/aerie-actions": "1.0.0-alpha"
   }
 }
