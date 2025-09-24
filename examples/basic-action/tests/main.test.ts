@@ -34,16 +34,14 @@ function createMock<T extends object>(overrides: Partial<{ [K in keyof T]: T[K] 
 
 // create a partial mock of the actions API, so we can test it without making real database calls
 // TODO: extract createMockActionsAPI into aerie-actions TestUtils package
-const mockActionsAPI = createMock<ActionsAPI>({
-  listSequences: async () => {
-    return [];
-  },
-  readSequence: async () => {
-    console.log("called readSequence");
-    return { id: 1, definition: "test" } as ReadSequenceResult;
-  },
+const mockActionsAPI = {
+  workspaceId: 1,
+  listSequences: async () => {},
+  readSequence: async () => ({ definition: "test" }),
   writeSequence: async () => {},
-});
+  listFiles: async () => [],
+  writeFile: async () => [],     
+} as unknown as ActionsAPI;
 
 test("aerie basic example action", async (t) => {
   t.mock.method(globalThis, 'fetch', mockFetch);

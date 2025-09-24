@@ -8,7 +8,7 @@
     "format": "prettier --plugin-search-dir=. --write .",
     "lint": "prettier --plugin-search-dir=. --check . && eslint .",
     "stringify": "npm run build && node stringify.js",
-    "test": "node --import tsx --test tests"
+    "test": "node --import tsx --test tests/main.test.ts"
   },
   "author": "",
   "license": "MIT",
@@ -25,6 +25,6 @@
     "typescript": "5.7.3"
   },
   "dependencies": {
-    "@nasa-jpl/aerie-actions": "1.0.0-alpha"
+    "@nasa-jpl/aerie-actions": "^1.0.2"
   }
 }

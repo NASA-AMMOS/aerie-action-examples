@@ -6,11 +6,11 @@ import { main } from "../src/index.js";
 const mockActionsAPI = {
   workspaceId: 1,
   listSequences: async () => {},
-  readSequence: async () => {
-    console.log("got mocked");
-    return { definition: "test" };
-  },
+  readSequence: async () => ({ definition: "test" }),
   writeSequence: async () => {},
+  listFiles: async () => [],
+  writeFile: async () => [],
+  readFile: async () => [],     
 } as unknown as ActionsAPI;
 
 test("aerie figlet action", async (t) => {
