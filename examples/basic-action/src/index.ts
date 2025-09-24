@@ -51,13 +51,13 @@ export async function main(parameters: MyActionParameters, settings: MyActionSet
   }
 
   // read/write files using the actions helpers
-  const files = await actionsAPI.listSequences();
+  const files = await actionsAPI.listFiles("");
   console.log(`sequence files: ${JSON.stringify(files)}`);
 
   const readFileName = "my_file";
   // note: only wrap in try/catch to handle *non-fatal errors*! Fatal errors should be thrown to properly report action run as failure
   try {
-    const myFile = await actionsAPI.readSequence(readFileName);
+    const myFile = await actionsAPI.readFile(readFileName);
     console.log(`${readFileName}: ${JSON.stringify(myFile)}`);
   } catch (e) {
     console.warn(`Could not find file named ${readFileName}`);
@@ -65,7 +65,7 @@ export async function main(parameters: MyActionParameters, settings: MyActionSet
 
   //
   const jsonStr = JSON.stringify(resultData, null, 2);
-  const writeResult = await actionsAPI.writeSequence("action-template-output", jsonStr);
+  const writeResult = await actionsAPI.writeFile("basic-action-output.json", jsonStr, true);
   console.log(`writeResult: ${JSON.stringify(writeResult)}`);
 
   return {
